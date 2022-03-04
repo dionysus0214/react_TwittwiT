@@ -8,7 +8,7 @@ const AppLayout = ({ children }) => {
     <div>
       <Menu mode="horizontal">
         <Menu.Item key="index">
-          <Link href="/"><a>TwitTwit</a></Link>
+          <Link href="/"><a>TwittwiT</a></Link>
         </Menu.Item>
         <Menu.Item key="profile">
           <Link href="/profile"><a>Profile</a></Link>
