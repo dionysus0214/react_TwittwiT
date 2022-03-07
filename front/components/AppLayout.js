@@ -8,7 +8,7 @@ import UserProfile from '../components/UserProfile';
 import LoginForm from '../components/LoginForm';
 
 const SearchInput = styled(Input.Search)`
-  vertical-align: middle;
+  margin-top: 6px;
 `;
 
 const AppLayout = ({ children }) => {
@@ -23,7 +23,7 @@ const AppLayout = ({ children }) => {
         <Menu.Item key="profile">
           <Link href="/profile"><a>Profile</a></Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key="search">
           <SearchInput enterButton />
         </Menu.Item>
         <Menu.Item key="signup">
@@ -32,7 +32,7 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile /> : <LoginForm />}
+          {isLoggedIn ? <UserProfile setIsLoggedIn={setIsLoggedIn} /> : <LoginForm setIsLoggedIn={setIsLoggedIn} />}
         </Col>
         <Col xs={24} md={12}>
           {children}
