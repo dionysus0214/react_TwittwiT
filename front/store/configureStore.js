@@ -5,15 +5,11 @@ import reducer from '../reducers';
 
 const configureStore = () => {
   const store = createStore(reducer);
-  store.dispatch({
-    type: 'CHANGE_NICKNAME',
-    data: 'potato',
-  })
   return store;
 };
 
 const wrapper = createWrapper(configureStore, {
-  debug: process.env.NODE_ENV == 'development',
+  debug: process.env.NODE_ENV === 'development',
 });
 
-export default wrapper;
+export default wrapper; 

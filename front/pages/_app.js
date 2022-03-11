@@ -21,4 +21,4 @@ TwitTwit.propTypes = {
   Component: PropTypes.elementType.isRequired,
 };
 
-export default wrapper.widhRedux(TwitTwit);
+export default wrapper.withRedux(TwitTwit);
