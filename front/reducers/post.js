@@ -22,7 +22,7 @@ export const initialState = {
 
 const ADD_POST = 'ADD_POST';
 export const addPost = {
-  tyle: ADD_POST,
+  type: ADD_POST,
 }
 const dummyPost = {
   id: 2,
