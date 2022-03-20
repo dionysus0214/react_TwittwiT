@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Slick from 'react-slick';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 const Overlay = styled.div`
   position: fixed;
@@ -25,14 +25,15 @@ const Header = styled.header`
     color: #333;
     line-height: 44px;
   }
-  & button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 15px;
-    line-height: 14px;
-    cursor: pointer;
-  }
+`;
+
+const CloseBtn = styled.button`
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 15px;
+  line-height: 14px;
+  cursor: pointer;
 `;
 
 const SlickWrapper = styled.div`
@@ -63,14 +64,22 @@ const Indicator = styled.div`
   }
 `;
 
+// 로컬이 아니라 글로벌 스타일로 적용
+const Global = createGlobalStyle`
+  .slick-slide {
+    display: inline-block;
+  }
+`;
+
 const ImagesZoom = ({ images, onClose }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   return (
     <Overlay>
+      <Global />
       <Header>
         <h1>상세 이미지</h1>
-        <button onClick={onClose}>X</button>
+        <CloseBtn onClick={onClose}>X</CloseBtn>
       </Header>
       <SlickWrapper>
         <div>

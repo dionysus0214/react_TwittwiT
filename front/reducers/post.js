@@ -9,9 +9,9 @@ export const initialState = {
     Images: [{
       src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
     } , {
-      src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
+      src: 'https://gimg.gilbut.co.kr/book/BN001957/rn_view_BN001957.jpg',
       } , {
-      src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
+      src: 'https://gimg.gilbut.co.kr/book/BN001956/rn_view_BN001956.jpg',
     }],
     Comments: [{
       User: {
