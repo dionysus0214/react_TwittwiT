@@ -1,3 +1,5 @@
+import shortId from 'shortid';
+
 export const initialState = {
   mainPosts: [{
     id: 1,
@@ -20,10 +22,13 @@ export const initialState = {
       content: '얼른 사고싶어요~'
     }],
   }],
-  imagePaths: [], // 이미지 업로드 시 경로
-  addPostLoading: false, // 게시글 추가가 완료되면 true로 변경
+  imagePaths: [],
+  addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+  addCommentLoading: false,
+  addCommentDone: false,
+  addCommentError: null,
 };
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
@@ -44,16 +49,16 @@ export const addComment = (data) => ({
   data,
 });
 
-const dummyPost = {
-  id: 2,
-  content: '더미 데이터입니다',
+const dummyPost = (data) => ({
+  id: shortId.generate(),
+  content: data,
   User: {
     id: 1,
     nickname: '감자',
   },
   Images: [],
   Comments: [],
-};
+});
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -63,39 +68,39 @@ const reducer = (state = initialState, action) => {
         addPostLoading: true,
         addPostDone: false,
         addPostError: null,
-      }
+      };
     case ADD_POST_SUCCESS:
       return {
         ...state,
-        mainPosts: [dummyPost, ...state.mainPosts],
+        mainPosts: [dummyPost(action.data), ...state.mainPosts],
         addPostLoading: false,
         addPostDone: true,
-      }
+      };
     case ADD_POST_FAILURE:
       return {
         ...state,
         addPostLoading: false,
         addPostError: action.error,
-      }
+      };
     case ADD_COMMENT_REQUEST:
       return {
         ...state,
         addCommentLoading: true,
         addCommentDone: false,
         addCommentError: null,
-      }
+      };
     case ADD_COMMENT_SUCCESS:
       return {
         ...state,
         addCommentLoading: false,
         addCommentDone: true,
-      }
+      };
     case ADD_COMMENT_FAILURE:
       return {
         ...state,
         addCommentLoading: false,
         addCommentError: action.error,
-      }
+      };
     default:
       return state;
   }
