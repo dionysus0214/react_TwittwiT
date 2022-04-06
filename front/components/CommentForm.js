@@ -9,7 +9,7 @@ import { ADD_COMMENT_REQUEST } from '../reducers/post';
 const CommentForm = ({ post }) => {
   const dispatch = useDispatch();
   const id = useSelector((state) => state.user.me?.id);
-  const { addCommentDone } = useSelector((state) => state.post);
+  const { addCommentDone, addCommentLoading } = useSelector((state) => state.post);
   const [commentText, onChangeCommentText, setCommentText] = useInput('');
 
   useEffect(() => {
@@ -28,8 +28,19 @@ const CommentForm = ({ post }) => {
   return (
     <Form onFinish={onSubmitComment}>
       <Form.Item>
-        <Input.TextArea value={commentText} onChange={onChangeCommentText} rows={4} />
-        <Button style={{ float: 'right', marginTop: '4px' }} type="primary" htmlType="submit">ㅌㅇ</Button>
+        <Input.TextArea
+          value={commentText}
+          onChange={onChangeCommentText}
+          rows={4}
+        />
+        <Button
+          style={{ float: 'right', marginTop: '4px', zIndex: 1 }}
+          type="primary"
+          htmlType="submit"
+          loading={addCommentLoading}
+        >
+          ㅌㅇ
+        </Button>
       </Form.Item>
     </Form>
   );
