@@ -9,23 +9,38 @@ export const initialState = {
     },
     content: '첫 번째 게시글 #해시태그',
     Images: [{
+      id: shortId.generate(),
       src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
-    } , {
+    }, {
+      id: shortId.generate(),
       src: 'https://gimg.gilbut.co.kr/book/BN001957/rn_view_BN001957.jpg',
-      } , {
+      }, {
+      id: shortId.generate(),
       src: 'https://gimg.gilbut.co.kr/book/BN001956/rn_view_BN001956.jpg',
     }],
     Comments: [{
+      id: shortId.generate(),
       User: {
-        nickname: '고구마',
+        id: shortId.generate(),
+        nickname: '당근',
       },
-      content: '얼른 사고싶어요~'
+      content: '당근당근'
+    }, {
+      id: shortId.generate(),
+      User: {
+        id: shortId.generate(),
+        nickname: '토마토',
+      },
+      content: '토마토토토마토'
     }],
   }],
   imagePaths: [],
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+  removePostLoading: false,
+  removePostDone: false,
+  removePostError: null,
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
@@ -34,6 +49,10 @@ export const initialState = {
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
+
+export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
+export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
+export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 
 export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
@@ -50,8 +69,8 @@ export const addComment = (data) => ({
 });
 
 const dummyPost = (data) => ({
-  id: shortId.generate(),
-  content: data,
+  id: data.id,
+  content: data.content,
   User: {
     id: 1,
     nickname: '감자',
@@ -91,6 +110,26 @@ const reducer = (state = initialState, action) => {
         addPostLoading: false,
         addPostError: action.error,
       };
+    case REMOVE_POST_REQUEST:
+      return {
+        ...state,
+        removePostLoading: true,
+        removePostDone: false,
+        removePostError: null,
+      };
+    case REMOVE_POST_SUCCESS:
+      return {
+        ...state,
+        mainPosts: state.mainPosts.filter((v) => v.id !== action.data),
+        removePostLoading: false,
+        removePostDone: true,
+      };
+    case REMOVE_POST_FAILURE:
+      return {
+        ...state,
+        removePostLoading: false,
+        removePostError: action.error,
+      };
     case ADD_COMMENT_REQUEST:
       return {
         ...state,
@@ -115,6 +154,7 @@ const reducer = (state = initialState, action) => {
     case ADD_COMMENT_FAILURE:
       return {
         ...state,
+        mainPosts,
         addCommentLoading: false,
         addCommentError: action.error,
       };
