@@ -5,6 +5,9 @@ import faker from 'faker';
 export const initialState = {
   mainPosts: [],
   imagePaths: [],
+  loadPostsLoading: false,
+  loadPostsDone: false,
+  loadPostsError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -16,26 +19,24 @@ export const initialState = {
   addCommentError: null,
 };
 
-initialState.mainPosts = initialState.mainPosts.concat(
-  Array(20).fill().map(() => ({
+export const generateDummyPost = (number) => Array(number).fill().map(() => ({
+  id: shortId.generate(),
+  User: {
     id: shortId.generate(),
+    nickname: faker.name.findName(),
+  },
+  content: faker.lorem.paragraph(),
+  Images: [{
+    src: faker.image.image(),
+  }],
+  Comments: [{
     User: {
       id: shortId.generate(),
       nickname: faker.name.findName(),
     },
-    content: faker.lorem.paragraph(),
-    Images: [{
-      src: faker.image.image(),
-    }],
-    Comments: [{
-      User: {
-        id: shortId.generate(),
-        nickname: faker.name.findName(),
-      },
-      content: faker.lorem.sentence(),
-    }],
-  }))
-);
+    content: faker.lorem.sentence(),
+  }],
+}));
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
@@ -48,6 +49,10 @@ export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
+
+export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
+export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
+export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
 
 export const addPost = (data) => ({
   type: ADD_POST_REQUEST,
@@ -82,6 +87,21 @@ const dummyComment = (data) => ({
 // reducer는 이전 상태를 action을 통해 다음 상태로 만들어내는 함수(불변성 유지)
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
+    case LOAD_POSTS_REQUEST:
+      draft.loadPostsLoading = true;
+      draft.loadPostsDone = false;
+      draft.loadPostsError = null;
+      break;
+    case LOAD_POSTS_SUCCESS:
+      draft.loadPostsLoading = false;
+      draft.loadPostsDone = true;
+      draft.mainPosts = action.data.concat(draft.mainPosts);
+      draft.hasMorePosts = draft.mainPosts.length < 50;
+      break;
+    case LOAD_POSTS_FAILURE:
+      draft.loadPostsLoading = false;
+      draft.loadPostsError = action.error;
+      break;
     case ADD_POST_REQUEST:
       draft.addPostLoading = true;
       draft.addPostDone = false;
