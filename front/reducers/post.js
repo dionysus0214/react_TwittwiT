@@ -5,6 +5,7 @@ import faker from 'faker';
 export const initialState = {
   mainPosts: [],
   imagePaths: [],
+  hasMorePost: true,
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
